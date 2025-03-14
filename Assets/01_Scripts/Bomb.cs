@@ -36,11 +36,11 @@ public class Bomb : MonoBehaviour
         GameObject explo = Instantiate(exploFactory);
         // 만든 효과를 나의 위치에 놓자.
         explo.transform.position = transform.position;
-        // 만든 효과에서 ParticleSystem 을 가져오자.
+        // 만든 효과에서 ParticleSystem을 가져오자.
         ParticleSystem ps = explo.GetComponent<ParticleSystem>();
-        // 가져온 ParticleSystem 의 기능의 Play 를 실행하자.
+        // 가져온 ParticleSystem 의 기능의 Play를 실행하자.
         ps.Play();
-        // 2초뒤에 ps 를 파괴하자.
+        // 2초뒤에 ps를 파괴하자.
         Destroy(explo, 2);
 
         // 나를 파괴하자

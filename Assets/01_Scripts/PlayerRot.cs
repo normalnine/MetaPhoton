@@ -17,7 +17,7 @@ public class PlayerRot : MonoBehaviourPun
 
     void Start()
     {
-        // 내가 생성한 Player 일 때만 카메라를 활성화 하자
+        // 내가 생성한 Player일 때만 카메라를 활성화 하자
         if(photonView.IsMine)
         {
             trCam.gameObject.SetActive(true);

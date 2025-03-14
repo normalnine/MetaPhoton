@@ -18,10 +18,10 @@ public class PlayerHP : MonoBehaviour
         currHP = maxHP;
     }
 
-    // 데미지 맞았을 때 HP 를 줄여주는 함수
+    // 데미지 맞았을 때 HP를 줄여주는 함수
     public void UpdateHP(float damage)
     {
-        // 현재 HP 를 damage 만큼 줄여준다.
+        // 현재 HP 를 damage만큼 줄여준다.
         currHP += damage;
         // HPBar 갱신한다.
         hpBar.fillAmount = currHP / maxHP;

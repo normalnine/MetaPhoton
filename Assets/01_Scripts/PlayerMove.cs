@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     // 보정하는 속력
     float lerpSpeed = 50;
 
-    // NickName Text 를 가져오자
+    // NickName Text를 가져오자
     public Text nickName;    
 
     void Start()
@@ -62,7 +62,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
             // 만약에 땅에 닿아있다면
             if(cc.isGrounded == true)
             {
-                // yVelocity 를 0 으로 하자
+                // yVelocity를 0 으로 하자
                 yVelocity = 0;
             }
 
@@ -73,10 +73,10 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
                 yVelocity = jumpPower;
             }
 
-            // yVelocity 를 중력만큼 감소시키자.
+            // yVelocity를 중력만큼 감소시키자.
             yVelocity += gravity * Time.deltaTime;
 
-            // yVelocity 값을 dir 의 y 값에 셋팅
+            // yVelocity 값을 dir의 y값에 셋팅
             dir.y = yVelocity;
 
             // 3. 그 방향으로 움직이자.
@@ -95,7 +95,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // 내 Player 라면
+        // 내 Player라면
         if(stream.IsWriting)
         {
             // 나의 위치, 회전 값을 보낸다.
@@ -103,7 +103,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
             // 나의 회전값을 보낸다.
             stream.SendNext(transform.rotation);
         }
-        // 내 Player 아니라면
+        // 내 Player가 아니라면
         else
         {
             // 위치값 받자.

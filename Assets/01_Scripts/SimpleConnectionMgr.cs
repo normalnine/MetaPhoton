@@ -68,7 +68,7 @@ public class SimpleConnectionMgr : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         print(nameof(OnJoinedRoom));
-        // Game Scene 으로 이동
+        // Game Scene으로 이동
         PhotonNetwork.LoadLevel("GameScene");
     }
 }

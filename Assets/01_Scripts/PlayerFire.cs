@@ -12,7 +12,7 @@ public class PlayerFire : MonoBehaviourPun
 
     void Start()
     {
-        // 내가 만든 Player 가 아닐 때
+        // 내가 만든 Player가 아닐 때
         if (photonView.IsMine == false)
         {
             // PlayerFire 컴포넌트를 비활성화
@@ -67,9 +67,9 @@ public class PlayerFire : MonoBehaviourPun
     [PunRPC]
     void FireRayByRpc(Vector3 firePos, Vector3 firFoward)
     {
-        // 카메라위치, 카메라 앞방향으로 Ray 를 만들자.
+        // 카메라위치, 카메라 앞방향으로 Ray를 만들자.
         Ray ray = new Ray(firePos, firFoward);
-        // 만약에 Ray 를 발사해서 부딪힌 곳이 있다면
+        // 만약에 Ray를 발사해서 부딪힌 곳이 있다면
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo))
         {
@@ -82,7 +82,7 @@ public class PlayerFire : MonoBehaviourPun
             // 2초 뒤에 파편효과를 파괴하자.
             Destroy(fragment, 2);
 
-            // 만약에 맞은 놈의 이름이 Player 를 포함하고 있다면
+            // 만약에 맞은 놈의 이름이 Player를 포함하고 있다면
             if(hitInfo.transform.gameObject.name.Contains("Player"))
             {
                 // 플레이어가 가지고 있는  PlayerHP 컴포넌트 가져오자
