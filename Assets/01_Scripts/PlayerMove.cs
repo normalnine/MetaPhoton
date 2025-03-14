@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     // 서버에서 넘어오는 위치값
     Vector3 receivePos;
     // 서버에서 넘어오는 회전값
-    Quaternion receiveRot;
+    Quaternion receiveRot = Quaternion.identity;
     // 보정하는 속력
     float lerpSpeed = 50;
 

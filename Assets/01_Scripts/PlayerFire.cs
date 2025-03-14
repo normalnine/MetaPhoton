@@ -26,12 +26,7 @@ public class PlayerFire : MonoBehaviourPun
         // 1번키를 누르면
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            // 폭탄공장에서 폭탄을 만든다.
-            GameObject bomb = Instantiate(bombFactory);
-            // 만들어진 폭탄을 카메라 앞방향으로 1만큼 떨어진 지점에 놓는다.
-            bomb.transform.position = Camera.main.transform.position + Camera.main.transform.forward;
-            // 만들어진 총알의 앞방향을 카메라가 보는 방향으로 설정
-            bomb.transform.forward = Camera.main.transform.forward;
+            FireBulletByInstantiate();
         }
 
         // 2번키 누르면
@@ -53,5 +48,17 @@ public class PlayerFire : MonoBehaviourPun
                 Destroy(fragment, 2);
             }
         }
+    }
+
+    void FireBulletByInstantiate()
+    {
+        // 만들어진 폭탄을 카메라 앞방향으로 1만큼 떨어진 지점에 놓는다.
+        Vector3 pos = Camera.main.transform.position + Camera.main.transform.forward;
+
+        // 만들어진 총알의 앞방향을 카메라가 보는 방향으로 설정
+        Quaternion rot = Camera.main.transform.rotation;
+
+        // 폭탄공장에서 폭탄을 만든다.
+        GameObject bomb = PhotonNetwork.Instantiate("Bomb", pos, rot);
     }
 }
