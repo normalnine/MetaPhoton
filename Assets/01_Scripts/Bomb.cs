@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Bomb : MonoBehaviourPun
+public class Bomb : MonoBehaviour
 {
     // 총알 속력
     float speed = 10;
@@ -18,12 +18,16 @@ public class Bomb : MonoBehaviourPun
 
     void Update()
     {
-        // 내가 쏜 총알만 움직이게 하자
-        if(photonView.IsMine)
-        {
-            // 계속 앞으로 가고 싶다.
-            transform.position += transform.forward * speed * Time.deltaTime;
-        }
+        // 계속 앞으로 가고 싶다.
+        transform.position += transform.forward * speed * Time.deltaTime;
+
+        // PhotonNetwork.Instantiate 사용할 때
+        //// 내가 쏜 총알만 움직이게 하자
+        //if (photonView.IsMine)
+        //{
+        //    // 계속 앞으로 가고 싶다.
+        //    transform.position += transform.forward * speed * Time.deltaTime;
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,12 +43,15 @@ public class Bomb : MonoBehaviourPun
         // 2초뒤에 ps 를 파괴하자.
         Destroy(explo, 2);
 
-        // 내가 쏜 총알만
-        if(photonView.IsMine)
-        {
-            // 나를 파괴하자
-            PhotonNetwork.Destroy(gameObject);
-        }
+        // 나를 파괴하자
+        Destroy(gameObject);
+
+        //// 내가 쏜 총알만
+        //if(photonView.IsMine)
+        //{
+        //    // 나를 파괴하자
+        //    PhotonNetwork.Destroy(gameObject);
+        //}
 
     }
 }
