@@ -13,7 +13,7 @@ public class PlayerFire : MonoBehaviourPun
     void Start()
     {
         // 내가 만든 Player 가 아닐 때
-        if(photonView.IsMine == false)
+        if (photonView.IsMine == false)
         {
             // PlayerFire 컴포넌트를 비활성화
             this.enabled = false;
@@ -24,20 +24,27 @@ public class PlayerFire : MonoBehaviourPun
     void Update()
     {
         // 1번키를 누르면
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             //FireBulletByInstantiate();
-            photonView.RPC("FireBulletByRpc", RpcTarget.All);
+
+            //만들어진 폭탄을 카메라 앞방향으로 1만큼 떨어진 지점에 놓는다.
+            Vector3 pos = Camera.main.transform.position + Camera.main.transform.forward;
+
+            // 만들어진 총알의 앞방향을 카메라가 보는 방향으로 설정
+            Vector3 forward = Camera.main.transform.forward;
+
+            photonView.RPC(nameof(FireBulletByRpc), RpcTarget.All, pos, forward);
         }
 
         // 2번키 누르면
-        if(Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             // 카메라위치, 카메라 앞방향으로 Ray 를 만들자.
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             // 만약에 Ray 를 발사해서 부딪힌 곳이 있다면
             RaycastHit hitInfo;
-            if(Physics.Raycast(ray, out hitInfo))
+            if (Physics.Raycast(ray, out hitInfo))
             {
                 // 그 위치에 파편효과공장에서 파편효과를 만든다.
                 GameObject fragment = Instantiate(fragmentFactory);
@@ -64,16 +71,10 @@ public class PlayerFire : MonoBehaviourPun
     }
 
     [PunRPC]
-    void FireBulletByRpc()
+    void FireBulletByRpc(Vector3 firePos, Vector3 fireFoward)
     {
-        // 만들어진 폭탄을 카메라 앞방향으로 1만큼 떨어진 지점에 놓는다.
-        Vector3 pos = Camera.main.transform.position + Camera.main.transform.forward;
-
-        // 만들어진 총알의 앞방향을 카메라가 보는 방향으로 설정
-        Quaternion rot = Camera.main.transform.rotation;
-
         GameObject bomb = Instantiate(bombFactory);
-        bomb.transform.position = pos;
-        bomb.transform.rotation = rot;
+        bomb.transform.position = firePos;
+        bomb.transform.forward = fireFoward;
     }
 }
