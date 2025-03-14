@@ -8,7 +8,7 @@ public class PlayerFire : MonoBehaviourPun
     // 폭탄 공장
     public GameObject bombFactory;
     // 파편 공장
-    public GameObject fragmentFactory;
+    public GameObject fragmentFactory;    
 
     void Start()
     {
@@ -81,6 +81,15 @@ public class PlayerFire : MonoBehaviourPun
             fragment.transform.forward = hitInfo.normal;
             // 2초 뒤에 파편효과를 파괴하자.
             Destroy(fragment, 2);
+
+            // 만약에 맞은 놈의 이름이 Player 를 포함하고 있다면
+            if(hitInfo.transform.gameObject.name.Contains("Player"))
+            {
+                // 플레이어가 가지고 있는  PlayerHP 컴포넌트 가져오자
+                PlayerHP hp = hitInfo.transform.GetComponent<PlayerHP>();
+                // 가져온 컴포넌트의 UpdateHP 함수를 실행
+                hp.UpdateHP(-10);
+            }
         }
     }
 }

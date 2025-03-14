@@ -27,8 +27,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     float lerpSpeed = 50;
 
     // NickName Text 를 가져오자
-    public Text nickName;
-
+    public Text nickName;    
 
     void Start()
     {
@@ -37,6 +36,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
 
         // NickName 설정
         nickName.text = photonView.Owner.NickName;
+
     }
 
     void Update()
