@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviourPun, IPunObservable
 {
@@ -25,11 +26,17 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     // 보정하는 속력
     float lerpSpeed = 50;
 
+    // NickName Text 를 가져오자
+    public Text nickName;
+
 
     void Start()
     {
         // Character Controller 가져오자
         cc = GetComponent<CharacterController>();
+
+        // NickName 설정
+        nickName.text = photonView.Owner.NickName;
     }
 
     void Update()
