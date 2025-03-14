@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerFire : MonoBehaviour
+public class PlayerFire : MonoBehaviourPun
 {
     // 폭탄 공장
     public GameObject bombFactory;
@@ -11,7 +12,13 @@ public class PlayerFire : MonoBehaviour
 
     void Start()
     {
-        
+        // 내가 만든 Player 가 아닐 때
+        if(photonView.IsMine == false)
+        {
+            // PlayerFire 컴포넌트를 비활성화
+            this.enabled = false;
+        }
+        // PlayerFire 컴포넌트를 비활성화
     }
 
     void Update()
