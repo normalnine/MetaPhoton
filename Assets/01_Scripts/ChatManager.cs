@@ -13,6 +13,10 @@ public class ChatManager : MonoBehaviour
     public GameObject chatItemFactory;
     // ScrollView에 있는 Content의 RectTransform
     public RectTransform rtContent;
+    // ScrollView의 RectTransform
+    public RectTransform rtScrollView;
+    // 채팅이 추가되기 전의 Content H의 값을 가지고 있는 변수
+    float prevContentH;
 
     void Start()
     {
@@ -28,6 +32,9 @@ public class ChatManager : MonoBehaviour
 
     void OnSubmit(string s)
     {
+        // 새로운 채팅이 추가되기 전의 content의 H값을 저장
+        prevContentH = rtContent.sizeDelta.y;
+
         //print("OnSubmit : " + s);
         // ChatItem 을 만든다.
         GameObject ci = Instantiate(chatItemFactory);
@@ -47,6 +54,24 @@ public class ChatManager : MonoBehaviour
 
         // chatInput 을 활성화 하자
         chatInput.ActivateInputField();
+
+        StartCoroutine(AutoScrollBottom());
+    }
+
+    IEnumerator AutoScrollBottom()
+    {
+        yield return 0;
+
+        // scrollView의 H보다 content의 H값이 크다면 (스크롤이 가능한 상태라면)
+        if(rtContent.sizeDelta.y > rtScrollView.sizeDelta.y)
+        {
+            // 이전에 바닥에 닿아있었다면
+            if(prevContentH - rtScrollView.sizeDelta.y <= rtContent.anchoredPosition.y)
+            {
+                // content의 y값을 재설정한다.
+                rtContent.anchoredPosition = new Vector2(0, rtContent.sizeDelta.y - rtScrollView.sizeDelta.y);
+            }
+        }
     }
 
     void OnValueChanged(string s)

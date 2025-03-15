@@ -1027,6 +1027,7 @@ MonoBehaviour:
   chatInput: {fileID: 1168020214}
   chatItemFactory: {fileID: 734915429579912649, guid: 9489fea9b9f19024c989f7c49b4d6c62, type: 3}
   rtContent: {fileID: 1658390856}
+  rtScrollView: {fileID: 334538724}
 --- !u!1 &926145560
 GameObject:
   m_ObjectHideFlags: 0
