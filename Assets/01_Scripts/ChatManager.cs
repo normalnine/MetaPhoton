@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class ChatManager : MonoBehaviour
+public class ChatManager : MonoBehaviourPun
 {
     // InputField
     public InputField chatInput;
@@ -18,8 +18,14 @@ public class ChatManager : MonoBehaviour
     // 채팅이 추가되기 전의 Content H의 값을 가지고 있는 변수
     float prevContentH;
 
+    // 닉네임 색상
+    public Color nickNameColor;
+
     void Start()
     {
+        // 닉네임 색상 랜덤하게 설정
+        nickNameColor = new Color32((byte)Random.Range(0, 256), (byte)Random.Range(0, 256), (byte)Random.Range(0, 256), 255);
+
         // 엔터키를 누르면 InputField에 있는 텍스트 내용 알려주는 함수 등록
         chatInput.onSubmit.AddListener(OnSubmit);
 
@@ -35,25 +41,33 @@ public class ChatManager : MonoBehaviour
         // 새로운 채팅이 추가되기 전의 content의 H값을 저장
         prevContentH = rtContent.sizeDelta.y;
 
-        //print("OnSubmit : " + s);
-        // ChatItem 을 만든다.
-        GameObject ci = Instantiate(chatItemFactory);
-        // 만들어진 item의 부모를 content로 한다.
-        ci.transform.SetParent(rtContent);
-
         // 닉네임을 붙여서 채팅내용을 만들자
-        string chat = "<color=#" + ColorUtility.ToHtmlStringRGB(Color.blue) + ">" + PhotonNetwork.NickName + "</color>" + " : " + s; 
-        
-        // 만들어진 item에서 ChatItem 컴포넌트를 가져온다.
-        ChatItem item = ci.GetComponent<ChatItem>();
-        // 가져온 컴포넌트에서 SetText 함수를 실행
-        item.SetText(chat);
+        string chat = "<color=#" + ColorUtility.ToHtmlStringRGB(nickNameColor) + ">" + PhotonNetwork.NickName + "</color>" + " : " + s;
+
+        // Rpc 함수로 모든 사람한테 채팅 내용을 전달
+        photonView.RPC(nameof(AddChatRpc), RpcTarget.All, chat);
 
         // chatInput 값을 초기화
         chatInput.text = "";
 
         // chatInput 을 활성화 하자
         chatInput.ActivateInputField();
+    }
+
+    [PunRPC]
+    void AddChatRpc(string chat)
+    {
+        //print("OnSubmit : " + s);
+        // ChatItem 을 만든다.
+        GameObject ci = Instantiate(chatItemFactory);
+        // 만들어진 item의 부모를 content로 한다.
+        ci.transform.SetParent(rtContent);
+
+
+        // 만들어진 item에서 ChatItem 컴포넌트를 가져온다.
+        ChatItem item = ci.GetComponent<ChatItem>();
+        // 가져온 컴포넌트에서 SetText 함수를 실행
+        item.SetText(chat);
 
         StartCoroutine(AutoScrollBottom());
     }
