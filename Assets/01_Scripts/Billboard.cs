@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         // 나의 앞방향을 카메라의 앞방향으로 설정

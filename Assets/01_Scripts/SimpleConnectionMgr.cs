@@ -12,11 +12,6 @@ public class SimpleConnectionMgr : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    void Update()
-    {
-        
-    }
-
     // 마스터 서버 접속 완료
     public override void OnConnectedToMaster()
     {

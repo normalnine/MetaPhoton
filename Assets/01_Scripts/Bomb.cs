@@ -11,11 +11,6 @@ public class Bomb : MonoBehaviour
     // 폭발효과공장
     public GameObject exploFactory;
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         // 계속 앞으로 가고 싶다.

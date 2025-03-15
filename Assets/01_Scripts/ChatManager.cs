@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class ChatManager : MonoBehaviour
 {
@@ -25,22 +26,27 @@ public class ChatManager : MonoBehaviour
         chatInput.onEndEdit.AddListener(OnEndEdit);
     }
 
-    void Update()
-    {
-        
-    }
-
     void OnSubmit(string s)
     {
         //print("OnSubmit : " + s);
         // ChatItem 을 만든다.
-        GameObject chatItem = Instantiate(chatItemFactory);
+        GameObject ci = Instantiate(chatItemFactory);
         // 만들어진 item의 부모를 content로 한다.
-        chatItem.transform.SetParent(rtContent);
-        // 만들어진 item에서 Text 컴포넌트를 가져온다.
-        Text item = chatItem.GetComponent<Text>();
-        // 가져온 컴포넌트에서 text 값을 s 로 셋팅
-        item.text = s;
+        ci.transform.SetParent(rtContent);
+
+        // 닉네임을 붙여서 채팅내용을 만들자
+        string chat = "<color=#" + ColorUtility.ToHtmlStringRGB(Color.blue) + ">" + PhotonNetwork.NickName + "</color>" + " : " + s; 
+        
+        // 만들어진 item에서 ChatItem 컴포넌트를 가져온다.
+        ChatItem item = ci.GetComponent<ChatItem>();
+        // 가져온 컴포넌트에서 SetText 함수를 실행
+        item.SetText(chat);
+
+        // chatInput 값을 초기화
+        chatInput.text = "";
+
+        // chatInput 을 활성화 하자
+        chatInput.ActivateInputField();
     }
 
     void OnValueChanged(string s)

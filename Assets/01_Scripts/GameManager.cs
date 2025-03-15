@@ -13,9 +13,4 @@ public class GameManager : MonoBehaviour
         // 나의 Player 생성
         PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
     }
-
-    void Update()
-    {
-        
-    }
 }
