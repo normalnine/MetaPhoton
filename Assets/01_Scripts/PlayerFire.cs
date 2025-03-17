@@ -23,6 +23,9 @@ public class PlayerFire : MonoBehaviourPun
 
     void Update()
     {
+        // 만약에 마우스 커서가 활성화 되어 있으면 함수를 나가자
+        if (Cursor.visible == true) return;
+
         // 1번키를 누르면
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

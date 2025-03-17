@@ -29,6 +29,9 @@ public class PlayerRot : MonoBehaviourPun
         // 내것이 아닐 때 함수를 나가자
         if (photonView.IsMine == false) return;
 
+        // 만약에 마우스 커서가 활성화 되어 있으면 함수를 나가자
+        if (Cursor.visible == true) return;
+
         // 마우스의 움직임따라 플레이를 좌우 회전하고
         // 카메라를 위아카래 회전하고 싶다.
 
