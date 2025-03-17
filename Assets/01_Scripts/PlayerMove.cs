@@ -32,6 +32,12 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     // UI Canvas
     public GameObject myUI;
 
+    // animator
+    public Animator anim;
+
+    // 점프 중이니?
+    bool isJump = false;
+
     void Start()
     {
         // Character Controller 가져오자
@@ -78,6 +84,16 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
             {
                 // yVelocity를 0 으로 하자
                 yVelocity = 0;
+
+                // 만약에 점프 중이라면
+                if(isJump == true)
+                {
+                    // 착지 Trigger 발생
+                    anim.SetTrigger("Land");
+                }
+
+                // 점프 아니라고 설정
+                isJump = false;
             }
 
             // 스페이스바를 누르면 점프를 하고 싶다.
@@ -85,6 +101,12 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
             {
                 // yVelocity 에 jumpPower 를 셋팅
                 yVelocity = jumpPower;
+
+                // 점프 Trigger 발생
+                anim.SetTrigger("Jump");
+
+                // 점프 중이라고 설정
+                isJump = true;
             }
 
             // yVelocity를 중력만큼 감소시키자.
@@ -97,6 +119,9 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
             // transform.position += dir * speed * Time.deltaTime;
             cc.Move(dir * speed * Time.deltaTime);
 
+            // 애니메이션 Parameter 값 전달
+            anim.SetFloat("Horizontal", h);
+            anim.SetFloat("Vertical", v);
         }
         else
         {
