@@ -19,6 +19,28 @@ public class GameManager : MonoBehaviour
 
         // 마우스 포인터를 비활성화
         Cursor.visible = false;
+
+        SetSpawnPos();
+    }
+
+    // spanwPosGroup Transform
+    public Transform trSpawnPosGroup;
+
+    void SetSpawnPos()
+    {
+        // 간격(angle)
+        float angle = 360 / 5;
+
+        for(int i=0; i<5; i++)
+        {
+            trSpawnPosGroup.Rotate(0, angle, 0);
+
+            Vector3 pos = trSpawnPosGroup.forward + trSpawnPosGroup.forward * 5;
+
+            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+            go.transform.position = pos;
+        }
     }
 
     void Update()
