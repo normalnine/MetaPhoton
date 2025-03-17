@@ -27,16 +27,27 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     float lerpSpeed = 50;
 
     // NickName Text를 가져오자
-    public Text nickName;    
+    public Text nickName;
+
+    // UI Canvas
+    public GameObject myUI;
 
     void Start()
     {
         // Character Controller 가져오자
         cc = GetComponent<CharacterController>();
 
-        // NickName 설정
-        nickName.text = photonView.Owner.NickName;
-
+        // 만약에 내가 만든 Player 라면
+        if(photonView.IsMine == true)
+        {
+            // UI를 비활성화 하자
+            myUI.SetActive(false);
+        }
+        else
+        {
+            // NickName 설정
+            nickName.text = photonView.Owner.NickName;
+        }
     }
 
     void Update()

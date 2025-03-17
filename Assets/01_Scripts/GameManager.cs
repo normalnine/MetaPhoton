@@ -8,8 +8,11 @@ public class GameManager : MonoBehaviour
 {
     void Start()
     {
+        // RPC 호출 빈도
+        PhotonNetwork.SendRate = 30;
+
         // OnPhotonSerializeView 호출 빈도
-        PhotonNetwork.SerializationRate = 60;
+        PhotonNetwork.SerializationRate = 30;
 
         // 나의 Player 생성
         PhotonNetwork.Instantiate("Player", new Vector3(0, 1, 0), Quaternion.identity);
