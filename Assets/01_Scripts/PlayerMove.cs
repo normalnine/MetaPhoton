@@ -38,6 +38,11 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     // 점프 중이니?
     bool isJump = false;
 
+    //가로 방향을 결정
+    float h;
+    //세로 방향을 결정
+    float v;
+
     void Start()
     {
         // Character Controller 가져오자
@@ -67,8 +72,8 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
             // W, S, A, D 키를 누르면 앞뒤좌우로 움직이고 싶다.
 
             // 1. 사용자의 입력을 받자.
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
+            h = Input.GetAxis("Horizontal");
+            v = Input.GetAxis("Vertical");
 
             // 2. 방향을 만든다
             // 좌우
@@ -89,7 +94,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
                 if(isJump == true)
                 {
                     // 착지 Trigger 발생
-                    anim.SetTrigger("Land");
+                    photonView.RPC(nameof(SetTriggerRpc), RpcTarget.All, "Land");
                 }
 
                 // 점프 아니라고 설정
@@ -103,7 +108,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
                 yVelocity = jumpPower;
 
                 // 점프 Trigger 발생
-                anim.SetTrigger("Jump");
+                photonView.RPC(nameof(SetTriggerRpc), RpcTarget.All, "Jump");
 
                 // 점프 중이라고 설정
                 isJump = true;
@@ -117,11 +122,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
 
             // 3. 그 방향으로 움직이자.
             // transform.position += dir * speed * Time.deltaTime;
-            cc.Move(dir * speed * Time.deltaTime);
-
-            // 애니메이션 Parameter 값 전달
-            anim.SetFloat("Horizontal", h);
-            anim.SetFloat("Vertical", v);
+            cc.Move(dir * speed * Time.deltaTime);            
         }
         else
         {
@@ -130,6 +131,16 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
             // 회전 보정
             transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, lerpSpeed * Time.deltaTime);
         }
+
+        // 애니메이션 Parameter 값 전달
+        anim.SetFloat("Horizontal", h);
+        anim.SetFloat("Vertical", v);
+    }
+
+    [PunRPC]
+    void SetTriggerRpc(string parameter)
+    {
+        anim.SetTrigger(parameter);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
