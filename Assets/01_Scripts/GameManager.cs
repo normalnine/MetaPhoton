@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.EventSystems;
+using Photon.Realtime;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     void Start()
     {
@@ -71,5 +72,13 @@ public class GameManager : MonoBehaviour
                 Cursor.visible = false;
             }
         }
+    }
+
+    // 새로운 인원이 방에 들어왔을 때 호출되는 함수
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        print(newPlayer.NickName + "님이 들어왔습니다!");
     }
 }
