@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class ConnectionManager : MonoBehaviourPunCallbacks
 {
@@ -64,8 +65,11 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         // 닉네임 설정
         PhotonNetwork.NickName = inputNickName.text;
 
+        // 특정 Lobby 정보 셋팅
+        TypedLobby typeLobby = new TypedLobby("Meta Lobby", LobbyType.Default);
+
         // 로비 진입 요청
-        PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinLobby(typeLobby);
     }
 
     public override void OnJoinedLobby()
