@@ -14,32 +14,41 @@ public class GameManager : MonoBehaviour
         // OnPhotonSerializeView 호출 빈도
         PhotonNetwork.SerializationRate = 30;
 
+        SetSpawnPos();
+
+        // 내가 위치해야 하는 idx 구하자
+        int idx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
+
         // 나의 Player 생성
-        PhotonNetwork.Instantiate("Player", new Vector3(0, 1, 0), Quaternion.identity);
+        PhotonNetwork.Instantiate("Player", spawnPos[idx], Quaternion.identity);
 
         // 마우스 포인터를 비활성화
         Cursor.visible = false;
-
-        SetSpawnPos();
     }
 
     // spanwPosGroup Transform
     public Transform trSpawnPosGroup;
 
+    // Spawn 위치를 담아놓을 변수
+    public Vector3[] spawnPos;
+
     void SetSpawnPos()
     {
-        // 간격(angle)
-        float angle = 360 / 5;
+        // 최대 인원 만큼 spawnPos의 공간 할당
+        spawnPos = new Vector3[PhotonNetwork.CurrentRoom.MaxPlayers];
+        // PhotonNetwork.CurrentRoom.MaxPlayers
 
-        for(int i=0; i<5; i++)
+        // 간격(angle)
+        float angle = 360 / spawnPos.Length;
+
+        for(int i=0; i<spawnPos.Length; i++)
         {
             trSpawnPosGroup.Rotate(0, angle, 0);
 
-            Vector3 pos = trSpawnPosGroup.forward + trSpawnPosGroup.forward * 5;
+            spawnPos[i] = trSpawnPosGroup.forward + trSpawnPosGroup.forward * 5;
 
-            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-            go.transform.position = pos;
+            //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            //go.transform.position = pos;
         }
     }
 
