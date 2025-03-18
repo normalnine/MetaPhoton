@@ -7,6 +7,28 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    // 자신을 담을 static 변수
+    public static GameManager instance = null;
+
+    // 모든 Player들의 PhotonView를 가지는 List
+    public List<PhotonView> listPlayer = new List<PhotonView>();
+
+    private void Awake()
+    {
+        // 만약에 instance 값이 null이라면
+        if(instance == null)
+        {
+            // instance에 나 자신을 셋팅
+            instance = this;            
+        }
+        // 그렇지 않으면
+        else
+        {
+            // 나를 파괴하자
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         // RPC 호출 빈도
@@ -72,6 +94,43 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Cursor.visible = false;
             }
         }
+    }
+
+    // 참여한 Player의 PhotonView 추가
+    public void AddPlayer(PhotonView pv)
+    {
+        listPlayer.Add(pv);
+
+        // 모든 Player가 참여했다면
+        if(listPlayer.Count == PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            // Turn을 시작하자
+            ChageTurn();
+        }
+    }
+
+    // 현재 Turn Idx
+    int currTurnIdx = -1;
+
+    public void ChageTurn()
+    {
+        // 방장이 아니라면 함수를 나가자
+        if (PhotonNetwork.IsMasterClient == false) return;
+
+        if(currTurnIdx != -1)
+        {
+            // 발사한 사람 Turn 종료
+            listPlayer[currTurnIdx].RPC("ChangeTurnRpc", RpcTarget.All, false);
+        }
+
+        // currTurnIdx을 증가
+        currTurnIdx++;
+
+        // currTurnIdx가 3이면 currTurnIdx를 0으로 만들어준다
+        currTurnIdx = currTurnIdx % listPlayer.Count;
+
+        // 다음 사람 Turn 시작
+        listPlayer[currTurnIdx].RPC("ChangeTurnRpc", RpcTarget.All, true);
     }
 
     // 새로운 인원이 방에 들어왔을 때 호출되는 함수

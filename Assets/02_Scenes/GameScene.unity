@@ -1166,7 +1166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ccbc77cf97336b478eadc67c331d134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listPlayer: []
   trSpawnPosGroup: {fileID: 292389768}
+  spawnPos: []
 --- !u!1 &1168020212
 GameObject:
   m_ObjectHideFlags: 0

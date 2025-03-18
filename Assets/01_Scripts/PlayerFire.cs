@@ -26,6 +26,9 @@ public class PlayerFire : MonoBehaviourPun
         // 만약에 마우스 커서가 활성화 되어 있으면 함수를 나가자
         if (Cursor.visible == true) return;
 
+        // 만약에 내가 총을 쏠 수 없는 상태라면 함수를 나가자
+        if (canFire == false) return;
+
         // 1번키를 누르면
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -94,5 +97,18 @@ public class PlayerFire : MonoBehaviourPun
                 hp.UpdateHP(-10);
             }
         }
+
+        // 턴을 넘긴다
+        GameManager.instance.ChageTurn();
+    }
+
+
+    // 내가 총을 쏠 수 있는지 판단
+    bool canFire;
+
+    [PunRPC]
+    void ChangeTurnRpc(bool fire)
+    {
+        canFire = fire;
     }
 }
