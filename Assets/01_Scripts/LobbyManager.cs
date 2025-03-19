@@ -11,6 +11,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public InputField inputRoomName;
     // Input Max Player
     public InputField inputMaxPlayer;
+    // Input Password
+    public InputField inputPassword;
+
     // 방 참여 버튼
     public Button btnJoinRoom;
     // 방 생성 버튼
@@ -61,12 +64,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // 방에 참여할 수 있니? 없니?
         option.IsOpen = true;
 
+        // custom 설정
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash["room_name"] = inputRoomName.text;
+        hash["map_idx"] = 10;
+        hash["use_item"] = true;
+
+        // custom 설정을 option에 셋팅
+        option.CustomRoomProperties = hash;
+
+        // custom 정보를 Lobby에서 사용할 수 있게 설정
+        string [] customkeys = { "room_name", "map_idx", "use_item" };
+        option.CustomRoomPropertiesForLobby = customkeys;
+
         // 특정 로비에 방 생성 요청
         //TypedLobby typedLobby = new TypedLobby("Meta Lobby", LobbyType.Default);
         //PhotonNetwork.CreateRoom(inputRoomName.text, option, typedLobby);
 
         // 기본 로비에 방 생성 요청
-        PhotonNetwork.CreateRoom(inputRoomName.text, option);
+        PhotonNetwork.CreateRoom(inputRoomName.text + inputPassword.text, option);
     }
     
     // 방 생성 완료시 호출 되는 함수
@@ -86,7 +102,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void JoinRoom()
     {
         // 방 입장 요청
-        PhotonNetwork.JoinRoom(inputRoomName.text);
+        PhotonNetwork.JoinRoom(inputRoomName.text + inputPassword.text);
     }
 
     // 방 입장 완료 시 호출되는 함수
@@ -146,7 +162,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             // roomItem prefab을 이용해서 roomItem을 만든다
             GameObject goRoomItem = Instantiate(roomItemFactory, rtContent);
             // 만들어진 roomItem의 부모를 scrollView -> Content의 transfor으로 한다.
-            goRoomItem.transform.parent = rtContent;
+            //goRoomItem.transform.parent = rtContent;
+
+            // custom 정보 뽑아오자
+            string roomName = (string)(info.CustomProperties["room_name"]);
+            int mapIdx = (int)(info.CustomProperties["map_idx"]);
+            bool useItem = (bool)(info.CustomProperties["use_item"]);
+
             // 만들어진 roomItem에서 RoomItem 컴포넌트 가져온다
             RoomItem roomItem = goRoomItem.GetComponent<RoomItem>();
             // 가져온 컴포넌트가 가지고 있는 SetInfo 함수 실행
