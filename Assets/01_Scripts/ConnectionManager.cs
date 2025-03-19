@@ -66,10 +66,11 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = inputNickName.text;
 
         // 특정 Lobby 정보 셋팅
-        TypedLobby typeLobby = new TypedLobby("Meta Lobby", LobbyType.Default);
+        //TypedLobby typedLobby = new TypedLobby("Meta Lobby", LobbyType.Default);
+        //PhotonNetwork.JoinLobby(typedLobby);
 
-        // 로비 진입 요청
-        PhotonNetwork.JoinLobby(typeLobby);
+        // 기본 로비 진입 요청
+        PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
@@ -79,6 +80,6 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         print(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
         // 로비 씬으로 이동
-        
+        PhotonNetwork.LoadLevel("LobbyScene");
     }
 }
