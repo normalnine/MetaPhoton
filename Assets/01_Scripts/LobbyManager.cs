@@ -151,6 +151,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             RoomItem roomItem = goRoomItem.GetComponent<RoomItem>();
             // 가져온 컴포넌트가 가지고 있는 SetInfo 함수 실행
             roomItem.SetInfo(info.Name, info.PlayerCount, info.MaxPlayers);
+            // RoomItem이 클릭되었을 때 호출되는 함수 등록
+            roomItem.onChangeRoomName = OnChangeRoomNameField;
+
+            // 람다식 lamda
+            //roomItem.onChangeRoomName = (string roomName) => {
+            //    inputRoomName.text = roomName;
+            //};
         }
     }
 
@@ -165,5 +172,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         UpdateRoomList(roomList);
         // 룸리스트 정보를 가지고 UI를 다시 생성
         CreateRoomList();        
+    }
+
+    public void OnChangeRoomNameField(string roomName)
+    {
+        inputRoomName.text = roomName;
     }
 }
