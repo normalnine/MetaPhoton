@@ -102,6 +102,8 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
 
                 // 점프 아니라고 설정
                 isJump = false;
+
+                SoundManager.instance.PlaySFX(SoundManager.ESfx.SFX_JUMP);
             }
 
             // 스페이스바를 누르면 점프를 하고 싶다.

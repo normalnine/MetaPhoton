@@ -15,6 +15,9 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        // connection bgm 실행
+        SoundManager.instance.PlayBGM(SoundManager.EBgm.BGM_CONNECTION);
+
         // inputNickName의 내용이 변경될 때 호출되는 함수 등록
         inputNickName.onValueChanged.AddListener(OnValueChanged);
 

@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        SoundManager.instance.PlayBGM(SoundManager.EBgm.BGM_GAME);
+
         // RPC 호출 빈도
         PhotonNetwork.SendRate = 30;
 
